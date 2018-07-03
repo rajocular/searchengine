@@ -38,12 +38,14 @@ public class SearchEngine {
 	static String directory =System.getProperty("user.dir");
 	static File file_dir = new File(directory+"\\Translated pages\\");
     static File[] files = file_dir.listFiles(); 
+    
+    static File file_dy = new File("webpages");
+    static File[] sourcefiles = file_dy.listFiles();
 	
 	public static void main(String[] args) throws IOException, FileNotFoundException, NoSuchElementException, NullPointerException
 	{
 //		Translating the webpages for one time
-		File file_dir = new File("webpages");
-	    File[] sourcefiles = file_dir.listFiles();
+		
 	    file_dir = new File("Translated pages");
 	    if(!file_dir.exists())
 	    {
@@ -55,7 +57,6 @@ public class SearchEngine {
 		    }
 	    }
 	    File[] files = file_dir.listFiles();
-	    
 //	    Retrieve user input
 	    Scanner sc = new Scanner(System.in);
 	    System.out.println("Enter keyword:");
@@ -70,11 +71,17 @@ public class SearchEngine {
 	    if(index!=-1)
 		{
 			String name = files[index].getName();
-
 			output_html = new PrintStream(new FileOutputStream(final_file));
-			output_html.println("<html>\n<title>Search</title><head></head><body><p>Keyword: "+search+"</p>");
-			output_html.print("<a href=\""+files[index]+"\">");
-			output_html.print(name.substring(0, name.length()-4 )+"</a>");
+			output_html.println("<html>\n"
+					+ "<title>Search</title>"
+					+ "<head>"
+					+ "<link rel=\"stylesheet\" type=\"text/css\" href=\"style/bootstrap.css \" />"
+					+ "</head>"
+					+ "<body>"
+					+ "<div class=\"container text-center align-top\">"
+					+ "<h3>Keyword: <i>"+search+"</i></h3></div><h3>Best Match: ");
+			output_html.print("<a href=\""+sourcefiles[index]+"\">");
+			output_html.print(name.substring(0, name.length()-4 )+"</a></h3><br><hr>");
 			webpageranking(search,search_table,0);
 
 		}
@@ -224,7 +231,14 @@ public class SearchEngine {
 		if(flag == -1)
 		{
 			output_html = new PrintStream(new FileOutputStream(final_file));
-			output_html.println("<html>\n<title>Search</title><head><style>a{color:blue}p{padding-top:20px;left-margin:20px;}</style></head><body><p>No results found</p>");
+			output_html.println("<html>\n"
+					+ "<title>Search</title>"
+					+ "<head>"
+					+ "<link rel=\"stylesheet\" type=\"text/css\" href=\"style/bootstrap.css \" />"
+					+ "</head>"
+					+ "<body>"
+					+ "<div class=\"container text-center align-top\">"
+					+ "<h3>No results Found..! Try a different Keyword</h3>");
 			
 		}
 		else
@@ -246,8 +260,15 @@ public class SearchEngine {
 				{
 					int s=search(files,search_table,f[v]);
 					String name = files[s].getName();
-					output_html.println("<html>\n<title>Related Search</title><head><style>a{color:blue}p{padding-top:20px;left-margin:20px;}</style></head><body background=\"download.jpg\"><p>DID YOU MEAN: <i style=font-size:24px;>"+f[v]+"</p>");
-					output_html.print("<a href=\""+files[s]+"\">");
+					output_html.println("<html>\n"
+							+ "<title>Search</title>"
+							+ "<head>"
+							+ "<link rel=\"stylesheet\" type=\"text/css\" href=\"style/bootstrap.css \" />"
+							+ "</head>"
+							+ "<body>"
+							+ "<div class=\"container text-center align-top\">"
+							+ "<h3>Keyword: <i>"+new_keyword+"</i></h3></div><h3>Best Match: ");
+					output_html.print("<a href=\""+sourcefiles[s]+"\">");
 					output_html.print(name.substring(0, name.length()-4)+"</a>");		
 				}
 			}
@@ -256,9 +277,16 @@ public class SearchEngine {
 				output_html = new PrintStream(new FileOutputStream(final_file));
 				String name = files[index].getName();
 			
-				output_html.println("<html>\n<title>Search</title><head><style>a{color:blue}p{padding-top:20px;left-margin:20px;}</style></head><body background=\"download.jpg\"><p>DID YOU MEAN: <i style=font-size:24px;>"+new_keyword+"</i></p>");
-				output_html.print("<a href=\""+files[index]+"\">");
-				output_html.print(name.substring(0, name.length()-4)+"</a>");
+				output_html.println("<html>\n"
+						+ "<title>Search</title>"
+						+ "<head>"
+						+ "<link rel=\"stylesheet\" type=\"text/css\" href=\"style/bootstrap.css \" />"
+						+ "</head>"
+						+ "<body>"
+						+ "<div class=\"container text-center align-top\">"
+						+ "<h3>Keyword: <i>"+new_keyword+"</i></h3></div><h3>Best Match: ");
+				output_html.print("<a href=\""+sourcefiles[index]+"\">");
+				output_html.print(name.substring(0, name.length()-4)+"</a><br><hr>");
 			}
 			webpageranking(new_keyword,search_table,0);	
 		}
@@ -328,7 +356,7 @@ public class SearchEngine {
 	}
 	private static void webpageranking(String keyword, Hashtable<String, Integer> search_table, int range) throws IOException {
 		search2 = keyword.split("\\W+");
-		output_html.println("<br><p>Top results:</p><br><p>");
+		output_html.println("<p>");
 		int[][] ii= new int[files.length][search2.length];
 		for(int j =0;j<files.length;j++)
 		{
@@ -398,7 +426,8 @@ public class SearchEngine {
 			}
 			
 			a[index]=0;
-			String name =files[index].getName();output_html.println("<a href=\""+files[index]+"\">");
+			String name =files[index].getName();
+			output_html.println("<a href=\""+sourcefiles[index]+"\">");
 			output_html.println(name.substring(0, name.length()-4)+"</a><br><br><br>");
 			range++;
 			
