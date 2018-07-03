@@ -25,6 +25,8 @@ public class SearchEngine {
 	
 	static File final_file = new File("Results.html");
 	
+	static Hashtable<String, Integer> search_table = new Hashtable<String,Integer>();
+	
 	public static void main(String[] args) throws IOException, FileNotFoundException, NoSuchElementException, NullPointerException
 	{
 //		Translating the webpages for one time
@@ -40,6 +42,7 @@ public class SearchEngine {
 		     	trans.translate_to_text(sourcefiles[h]);
 		    }
 	    }
+	    File[] files = file_dir.listFiles();
 	    
 //	    Retrieve user input
 	    Scanner sc = new Scanner(System.in);
@@ -50,7 +53,13 @@ public class SearchEngine {
 //	    creating a HTML file to reflect the search results
 	    if(final_file.exists()) final_file.delete();
 	    
+//	    search begins here
+	    int index=search(files,search_table,search);
 	    
-	    
+	}
+	
+	public static int search(File[] files, Hashtable<String, Integer> search_table, String search) throws IOException
+	{
+		
 	}
 }
