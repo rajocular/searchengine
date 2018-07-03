@@ -35,6 +35,10 @@ public class SearchEngine {
 	static Hashtable<String, Integer> search_table = new Hashtable<String,Integer>();
 	static Hashtable<String, String> relate_table = new Hashtable<>();
 	
+	static String directory =System.getProperty("user.dir");
+	static File file_dir = new File(directory+"\\Translated files\\");
+    static File[] files = file_dir.listFiles(); 
+	
 	public static void main(String[] args) throws IOException, FileNotFoundException, NoSuchElementException, NullPointerException
 	{
 //		Translating the webpages for one time
@@ -319,7 +323,83 @@ public class SearchEngine {
 		
 	}
 	private static void webpageranking(String keyword, Hashtable<String, Integer> search_table, int range) throws IOException {
+		search2 = keyword.split("\\W+");
+		output_html.println("<br><p>Top results:</p><br><p>");
+		int[][] ii= new int[files.length][search2.length];
+		for(int j =0;j<files.length;j++)
+		{
+			
+			TST<Queue<Integer>> st = new TST<Queue<Integer>>();
+			int f=0;
+			try
+			{
+				BufferedReader br = new BufferedReader(new FileReader(files[j]));
+				String s = br.readLine();
+		    	while(s!=null)
+		    	{
+		    		StringTokenizer sto = new StringTokenizer(s);   
+		    		while(sto.hasMoreTokens())
+		        	{
+		    			str = sto.nextToken().toLowerCase();
+		    			if(str.matches("[a-zA-Z][a-zA-Z0-9]+"))
+						{
+		    				if(!(str.equalsIgnoreCase("what")||	str.equalsIgnoreCase("is")||str.equalsIgnoreCase("the")||str.equalsIgnoreCase("of")||str.equalsIgnoreCase("and")||str.equalsIgnoreCase("to")||str.equalsIgnoreCase("if")||str.equalsIgnoreCase("this")||str.equalsIgnoreCase("must")||str.equalsIgnoreCase("such")||str.equalsIgnoreCase("each")||str.equalsIgnoreCase("that")||str.equalsIgnoreCase("in")||str.equalsIgnoreCase("for")||str.equalsIgnoreCase("by")||str.equalsIgnoreCase("be")||str.equalsIgnoreCase("from")||str.equalsIgnoreCase("you")||str.equalsIgnoreCase("not")||str.equalsIgnoreCase("we")||str.equalsIgnoreCase("as")||str.equalsIgnoreCase("are")||str.equalsIgnoreCase("with")||str.equalsIgnoreCase("any")||str.equalsIgnoreCase("or")||str.equalsIgnoreCase("above")||str.equalsIgnoreCase("can")||str.equalsIgnoreCase("also")||	str.equalsIgnoreCase("an")||str.equalsIgnoreCase("it")||str.equalsIgnoreCase("but")||str.equalsIgnoreCase("at")||str.equalsIgnoreCase("use")||str.equalsIgnoreCase("have")||str.equalsIgnoreCase("will")||str.equalsIgnoreCase("do")||str.equalsIgnoreCase("more")||str.equalsIgnoreCase("yes")||str.equalsIgnoreCase("open")||	str.equalsIgnoreCase("may")||str.equalsIgnoreCase("which")||str.equalsIgnoreCase("on")||str.equalsIgnoreCase("all")	))
+		    				{
+		    				if(!st.contains(str))
+							{
+								st.put(str,new  Queue<Integer>());
+								st.get(str).enqueue(f);
+							}    
+							else
+							{
+								st.get(str).enqueue(f);
+							}
+		    				}
+						}
+		        	}	        	
+		        	s=br.readLine();
+		    	}
+				br.close();
+			}
+			catch(NoSuchElementException ns) {}
+			for(int v=0;v<search2.length;v++)
+			{
+				if(st.get(search2[v])!=null)
+				{
+					ii[j][v]=st.get(search2[v]).size();
+				}	
+			}
+			
+		}
+		int[] a = new int[files.length];
+		for(int i= 0;i<files.length;i++)
+		{
+			for(int j=0;j<search2.length;j++)
+			{
+					a[i]+= ii[i][j];	
+			}			
+		}
+		int max,index=0;
 		
+		do
+		{
+			max=0;
+			for(int i=0;i<files.length;i++)
+			{
+				if(a[i]>=max)
+				{
+					max=a[i];
+					index=i;
+				}
+			}
+			
+			a[index]=0;
+			String name =files[index].getName();output_html.println("<a href=\""+files[index]+"\">");
+			output_html.println(name.substring(0, name.length()-4)+"</a><br><br><br>");
+			range++;
+			
+		}while(max!=0 && range<10);
+		output_html.print("</p>");
 	}
 
 }
