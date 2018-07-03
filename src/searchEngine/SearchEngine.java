@@ -36,7 +36,7 @@ public class SearchEngine {
 	static Hashtable<String, String> relate_table = new Hashtable<>();
 	
 	static String directory =System.getProperty("user.dir");
-	static File file_dir = new File(directory+"\\Translated files\\");
+	static File file_dir = new File(directory+"\\Translated pages\\");
     static File[] files = file_dir.listFiles(); 
 	
 	public static void main(String[] args) throws IOException, FileNotFoundException, NoSuchElementException, NullPointerException
@@ -257,6 +257,7 @@ public class SearchEngine {
 				output_html.print("<a href=\""+files[index]+"\">");
 				output_html.print(name.substring(0, name.length()-4)+"</a>");
 			}
+			webpageranking(new_keyword,search_table,0);	
 		}
 		
 		
