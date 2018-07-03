@@ -1,4 +1,4 @@
-package search_engine;
+package searchEngine;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,7 @@ public class Translator {
 		PrintWriter print_text;
 		String result = Jsoup.parse(files, "ISO-8859-1").select("body").text();
     	String filename = files.getName();
-    	print_text = new PrintWriter(directory+"\\Translated files\\"+filename.substring(0,filename.length()-4 )+".txt");
+    	print_text = new PrintWriter(directory+"\\Translated pages\\"+filename.substring(0,filename.length()-4 )+".txt");
         print_text.println(result);
         print_text.close();
 	}
