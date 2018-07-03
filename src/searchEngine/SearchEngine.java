@@ -71,6 +71,7 @@ public class SearchEngine {
 			output_html.println("<html>\n<title>Search</title><head></head><body><p>Keyword: "+search+"</p>");
 			output_html.print("<a href=\""+files[index]+"\">");
 			output_html.print(name.substring(0, name.length()-4 )+"</a>");
+			webpageranking(search,search_table,0);
 
 		}
 	    else
@@ -317,4 +318,8 @@ public class SearchEngine {
 		print_html.close();
 		
 	}
+	private static void webpageranking(String keyword, Hashtable<String, Integer> search_table, int range) throws IOException {
+		
+	}
+
 }
