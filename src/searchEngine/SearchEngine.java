@@ -28,7 +28,10 @@ public class SearchEngine {
 	
 	static File final_file = new File("Results.html");
 	
+	static PrintStream output_html;
+	
 	static Hashtable<String, Integer> search_table = new Hashtable<String,Integer>();
+	static Hashtable<String, String> relate_table = new Hashtable<>();
 	
 	public static void main(String[] args) throws IOException, FileNotFoundException, NoSuchElementException, NullPointerException
 	{
@@ -58,10 +61,26 @@ public class SearchEngine {
 	    
 //	    search begins here
 	    int index=search(files,search_table,search);
+	    if(index!=-1)
+		{
+			String name = files[index].getName();
+
+			output_html = new PrintStream(new FileOutputStream(final_file));
+			output_html.println("<html>\n<title>Search</title><head></head><body><p>Keyword: "+search+"</p>");
+			output_html.print("<a href=\""+files[index]+"\">");
+			output_html.print(name.substring(0, name.length()-4 )+"</a>");
+
+		}
+	    else
+		{
+			
+			related(files,search_table,relate_table,search2);	
+		}
 	    
 	}
 	
 	public static int search(File[] files, Hashtable<String, Integer> search_table, String search) throws IOException
+	
 	{
 		search2 = search.split("\\W+");
 		
@@ -140,4 +159,23 @@ public class SearchEngine {
 		}
 		return index;
 	}
+	public static void related(File[] files, Hashtable<String, Integer> search_table, Hashtable<String, String> relate_table, String[] search2) throws IOException 
+	{
+		int d,v,min=0,match=0,j=0;
+		int length=0;
+		int[] val = new int[1000000];
+		String[] word = new String[1000000];
+		String[] frequency = new String[1000000];
+		String[] url = new String[1000000];
+		Hashtable<String,String> rela = new Hashtable<>();
+		In inp = new In("content.txt");
+		while(inp.hasNextLine())
+		{
+			word[length]=inp.readString();
+			frequency[length]=inp.readString();
+			url[length]=(String)inp.readLine();
+			length++;
+		}
+	}
+
 }
