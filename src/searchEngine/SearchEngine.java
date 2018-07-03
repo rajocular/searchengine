@@ -23,6 +23,8 @@ public class SearchEngine {
 
 	static String search;
 	
+	static File final_file = new File("Results.html");
+	
 	public static void main(String[] args) throws IOException, FileNotFoundException, NoSuchElementException, NullPointerException
 	{
 //		Translating the webpages for one time
@@ -44,5 +46,11 @@ public class SearchEngine {
 	    System.out.println("Enter keyword:");
 	    String search = sc.nextLine();
 	    sc.close();
+	    
+//	    creating a HTML file to reflect the search results
+	    if(final_file.exists()) final_file.delete();
+	    
+	    
+	    
 	}
 }
