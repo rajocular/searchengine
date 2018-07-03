@@ -162,7 +162,7 @@ public class SearchEngine {
 	public static void related(File[] files, Hashtable<String, Integer> search_table, Hashtable<String, String> relate_table, String[] search2) throws IOException 
 	{
 		int d,v,min=0,match=0,j=0;
-		int length=0;
+		int length=0, flag=0;
 		int[] val = new int[1000000];
 		String[] word = new String[1000000];
 		String[] frequency = new String[1000000];
@@ -176,6 +176,83 @@ public class SearchEngine {
 			url[length]=(String)inp.readLine();
 			length++;
 		}
+		
+//		editDistance is used to find related words
+		for(v=0;v<search2.length;v++)
+		{	
+			min = search2[v].length();
+			for(int i=0;i<length;i++)
+			{
+				d=Sequences.editDistance(search2[v],word[i]);
+				if(d<=min/2)
+				{
+					min=d;
+					val[j] = i;
+					j++;
+					match=i;
+				}
+			}		
+			if(word[match].length()>=min)
+			{
+				relate_table.put(word[match], url[match]);
+			}
+		}
+		
+//		related search begins here
+		for(v=0;v<j;v++)
+			if(word[val[v]].length()>=min-1)
+				rela.put( word[val[v]],url[val[v]]);
+		String newkeyword = null,new_keyword=null;
+		for(String s : relate_table.keySet())
+		{
+			if(newkeyword==null) newkeyword=s;
+			else	newkeyword+=" "+s;
+		}	
+		if(match==0)
+			flag = -1;
+		
+		if(flag == -1)
+		{
+			output_html = new PrintStream(new FileOutputStream(final_file));
+			output_html.println("<html>\n<title>Search</title><head><style>a{color:blue}p{padding-top:20px;left-margin:20px;}</style></head><body><p>No results found</p>");
+			
+		}
+		else
+		{
+			int index = search(files,search_table,newkeyword);
+			String[] w = newkeyword.split(" ");
+			for(int g = w.length-1;g>=0;g--)
+				
+			{
+				if(new_keyword==null) new_keyword=w[g];
+				else	new_keyword+=" "+w[g];
+			}
+			if(index==-1)
+			{
+				String[] f = new_keyword.split(" ");
+				output_html = new PrintStream(new FileOutputStream(final_file));
+				
+				for(v=0;v<f.length;v++)
+				{
+					int s=search(files,search_table,f[v]);
+					String name = files[s].getName();
+					output_html.println("<html>\n<title>Related Search</title><head><style>a{color:blue}p{padding-top:20px;left-margin:20px;}</style></head><body background=\"download.jpg\"><p>DID YOU MEAN: <i style=font-size:24px;>"+f[v]+"</p>");
+					output_html.print("<a href=\""+files[s]+"\">");
+					output_html.print(name.substring(0, name.length()-4)+"</a>");		
+				}
+			}
+			else
+			{
+				output_html = new PrintStream(new FileOutputStream(final_file));
+				String name = files[index].getName();
+			
+				output_html.println("<html>\n<title>Search</title><head><style>a{color:blue}p{padding-top:20px;left-margin:20px;}</style></head><body background=\"download.jpg\"><p>DID YOU MEAN: <i style=font-size:24px;>"+new_keyword+"</i></p>");
+				output_html.print("<a href=\""+files[index]+"\">");
+				output_html.print(name.substring(0, name.length()-4)+"</a>");
+			}
+		}
+		
+		
 	}
 
 }
