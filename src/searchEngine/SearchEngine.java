@@ -84,6 +84,9 @@ public class SearchEngine {
 			related(files,search_table,relate_table,search2);	
 		}
 	    frequency(files);
+	    
+	    File htmlFile = new File("Results.html");
+		Desktop.getDesktop().browse(htmlFile.toURI());
 	}
 	
 	public static int search(File[] files, Hashtable<String, Integer> search_table, String search) throws IOException
