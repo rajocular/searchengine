@@ -21,9 +21,11 @@ import files.*;
 
 public class SearchEngine {
 
+	static String search;
 	
 	public static void main(String[] args) throws IOException, FileNotFoundException, NoSuchElementException, NullPointerException
 	{
+//		Translating the webpages for one time
 		File file_dir = new File("webpages");
 	    File[] sourcefiles = file_dir.listFiles();
 	    file_dir = new File("Translated pages");
@@ -36,5 +38,11 @@ public class SearchEngine {
 		     	trans.translate_to_text(sourcefiles[h]);
 		    }
 	    }
+	    
+//	    Retrieve user input
+	    Scanner sc = new Scanner(System.in);
+	    System.out.println("Enter keyword:");
+	    String search = sc.nextLine();
+	    sc.close();
 	}
 }
