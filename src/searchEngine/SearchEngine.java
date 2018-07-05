@@ -267,7 +267,7 @@ public class SearchEngine {
 							+ "</head>"
 							+ "<body>"
 							+ "<div class=\"container text-center align-top\">"
-							+ "<h3>Keyword: <i>"+new_keyword+"</i></h3></div><h3>Best Match: ");
+							+ "<h3>Did you Mean: <i>"+new_keyword+"</i></h3></div><h3>Best Match: ");
 					output_html.print("<a href=\""+sourcefiles[s]+"\">");
 					output_html.print(name.substring(0, name.length()-4)+"</a>");		
 				}
@@ -284,9 +284,9 @@ public class SearchEngine {
 						+ "</head>"
 						+ "<body>"
 						+ "<div class=\"container text-center align-top\">"
-						+ "<h3>Keyword: <i>"+new_keyword+"</i></h3></div><h3>Best Match: ");
+						+ "<h3>Did you Mean: <i>"+new_keyword+"</i></h3></div><h3>Best Match: ");
 				output_html.print("<a href=\""+sourcefiles[index]+"\">");
-				output_html.print(name.substring(0, name.length()-4)+"</a><br><hr>");
+				output_html.print(name.substring(0, name.length()-4)+"</a></h3><br><hr>");
 			}
 			webpageranking(new_keyword,search_table,0);	
 		}
