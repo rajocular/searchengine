@@ -66,6 +66,7 @@ public class SearchEngine {
 //	    creating a HTML file to reflect the search results
 	    if(final_file.exists()) final_file.delete();
 	    
+	    
 //	    search begins here
 	    int index=search(files,search_table,search);
 	    if(index!=-1)
@@ -90,7 +91,10 @@ public class SearchEngine {
 			
 			related(files,search_table,relate_table,search2);	
 		}
+	    
+//	    to calculate frequencies of every word
 	    frequency(files);
+	    output_html.print("<p>To see top three words in every page <a href=\"Frequency.html\">Click here</a></p>");
 	    
 	    File htmlFile = new File("Results.html");
 		Desktop.getDesktop().browse(htmlFile.toURI());
