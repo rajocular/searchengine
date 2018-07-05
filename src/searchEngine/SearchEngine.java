@@ -299,7 +299,11 @@ public class SearchEngine {
 	}
 	private static void frequency(File[] files)throws IOException {
 		int d=1;
-		print_html = new PrintStream(new FileOutputStream(freq_file));print_html.println("<html>\n<title>FrequencyCalculator</title><head><style>td{min-width=60px;}</style></head><body background=\"download.jpg\"><table><tr><td>File</td>");
+		print_html = new PrintStream(new FileOutputStream(freq_file));
+		print_html.println("<html>\n<title>FrequencyCalculator</title>"
+				+ "<head>"
+				+ "<link rel=\"stylesheet\" type=\"text/css\" href=\"style/bootstrap.css \" />"
+				+ "</head><body><table class=\"table table-hover\"><tr  class=\"table-active\"><td>File Name</td>");
 		while(d<4)
 		{
 			print_html.print("<td>");
