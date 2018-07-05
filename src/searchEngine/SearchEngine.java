@@ -366,6 +366,7 @@ public class SearchEngine {
 		search2 = keyword.split("\\W+");
 		output_html.println("<p>");
 		int[][] ii= new int[files.length][search2.length];
+		output_html.print("<p class=\"text-warning\">*displayed results are in the order based on frequency</p>");
 		for(int j =0;j<files.length;j++)
 		{
 			
